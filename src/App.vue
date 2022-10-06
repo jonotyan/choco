@@ -1,45 +1,99 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
+    <v-navigation-drawer
+      class="v-navigation-drawer--fixed"
+      v-model="drawer"
+      absolute
+      temporary
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title>Навигация</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+      <v-divider></v-divider>
+
+      <v-list dense>
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          link
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <router-link class="text-decoration-none grey--text" v-bind:to="item.addressPage">
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </router-link>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <v-app-bar app>
+      <!-- -->
+      <div class="text-center">
+        <v-btn
+          class="mx-2"
+          fab
+          dark
+          small
+          color="red lighten-2"
+          @click.stop="drawer = !drawer"
+        >
+          <v-icon
+            dark
+            small
+            color="pink lighten-5">
+            mdi-format-list-bulleted-square
+          </v-icon>
+        </v-btn>
+        <v-btn
+          class="mx-2"
+          fab
+          dark
+          small
+          color="blue lighten-1"
+        >
+          <v-icon
+            dark
+            color="pink lighten-5">
+            mdi-alpha-s-box-outline
+          </v-icon>
+        </v-btn>
+
+        <v-btn
+          class="mx-2"
+          fab
+          dark
+          small
+          color="indigo lighten-1"
+        >
+          <v-icon
+            dark
+            color="pink lighten-5">
+            mdi-alpha-d-box-outline
+          </v-icon>
+        </v-btn>
       </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
     </v-app-bar>
 
+    <!-- Sizes your content based upon application components -->
     <v-main>
-      <router-view/>
+
+      <!-- Provides the application the proper gutter -->
+      <v-container fluid>
+
+        <!-- If using vue-router -->
+        <router-view></router-view>
+      </v-container>
     </v-main>
+
+    <v-footer app>
+      <!-- -->
+    </v-footer>
   </v-app>
 </template>
 
@@ -49,7 +103,15 @@ export default {
   name: 'App',
 
   data: () => ({
-    //
+    drawer: null,
+    items: [
+      { title: 'Главная', icon: 'mdi-home', addressPage: '/' },
+      { title: 'Рестораны', icon: 'mdi-hail', addressPage: '/restaurants' },
+    ],
   }),
 };
 </script>
+
+<style scoped>
+
+</style>
