@@ -12,12 +12,11 @@ export function getPhonesInfo(phones) {
 }
 
 function getStatus(restaurantTime, todayTime) {
-  const hoursToOpen = restaurantTime.openHour - todayTime.hour;
-  const minuteToOpen = restaurantTime.openMinute - todayTime.minute;
-  if (hoursToOpen >= 0) {
-    if (minuteToOpen >= 0) {
-      return `откроется через ${hoursToOpen}ч ${minuteToOpen}мин`;
-    }
+  const currentMinutes = restaurantTime.openHour * 60 + restaurantTime.openMinute;
+  const restaurantMinutes = todayTime.hour * 60 + todayTime.minute;
+  const minutesToOpen = currentMinutes - restaurantMinutes;
+  if (minutesToOpen >= 0) {
+    return `откроется через ${Math.trunc(minutesToOpen / 60)}ч ${minutesToOpen % 60}мин`;
   }
   return `закроется в ${restaurantTime.closeHour}:${restaurantTime.closeMinute}`;
 }

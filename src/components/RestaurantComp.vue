@@ -2,20 +2,20 @@
   <div class="container">
     <v-card
       shaped
-      class="mx-auto"
+      class="mx-auto card"
       max-width="344"
     >
       <v-img
-        src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+        v-bind:src="restaurant.image"
         height="300px"
       ></v-img>
 
       <v-card-title>
-        {{ items[1].restaurantTitle }}
+        {{ restaurant.restaurantTitleMin }}...
       </v-card-title>
 
       <v-card-subtitle>
-        {{ items[1].city }}
+        {{ restaurant.city }}
       </v-card-subtitle>
 
       <v-card-actions>
@@ -25,6 +25,7 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
+              class="btn-more"
               color="red lighten-2"
               dark
               v-bind="attrs"
@@ -36,17 +37,17 @@
 
           <v-card>
             <v-card-title class="text-h5 grey lighten-2">
-              s
+              {{ restaurant.restaurantTitle }}
             </v-card-title>
 
             <v-card-text class="restaurant-info">
-              <span class="text--primary">Город: {{ items[1].city }}</span><br>
-              <span class="text--primary">Адрес: {{ items[1].location }} </span><br>
-              <span class="text--primary">Рейтинг: {{ items[1].rating }} </span><br>
-              <span class="text--primary">Статус: {{ items[1].status }} </span><br>
-              <span class="text--primary">Контактное лицо: {{ items[1].phone.name }} </span>
-              <br>
-              <span class="text--primary">Телефон: {{ items[1].phone.number }} </span><br>
+              <span class="text--primary">Город: {{ restaurant.city }}</span><br>
+              <span class="text--primary">Адрес: {{ restaurant.location }} </span><br>
+              <span class="text--primary">Рейтинг: {{ restaurant.rating }} </span><br>
+              <span class="text--primary">Статус: {{ restaurant.status }} </span><br>
+              <span class="text--primary">Контактное лицо: {{ restaurant.phone.name }}
+              </span><br>
+              <span class="text--primary">Телефон: {{ restaurant.phone.number }} </span><br>
             </v-card-text>
 
             <v-divider></v-divider>
@@ -71,29 +72,34 @@
 </template>
 
 <script>
-import { getDataFromEndPoint } from '../api/api';
 // import getOneRestaurantInfo from '../api/helpers';
 
 export default {
   name: 'RestaurantComp',
-  // props: ['items'],
+  props: {
+    restaurant: {
+      type: Object,
+      default: () => ({}),
+    },
+    // index: Number,
+    // items: Array,
+  },
   data() {
     return {
       dialog: false,
-      items: {},
     };
-  },
-  created() {
-    getDataFromEndPoint().then((restaurantData) => {
-      console.log('this is ', restaurantData[1]);
-      this.items = restaurantData;
-    });
   },
 };
 </script>
 
 <style scoped>
-.container, .restaurant-info{
+.container, .restaurant-info {
   margin-top: 30px;
+}
+.card:hover {
+  box-shadow: black 1px 1px 8px 1px;
+}
+.btn-more{
+  margin: 0 0 12px 0;
 }
 </style>

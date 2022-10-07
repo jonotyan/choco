@@ -4,12 +4,16 @@
         <v-container>
           <v-row>
             <v-col
-              v-for="n in 12"
-              :key="n"
+              v-for="(restaurant,index) in restaurants"
+              :key="index"
               cols="12"
               md="4"
             >
-              <restaurant-comp />
+              <restaurant-comp
+                :restaurant="restaurant"
+              />
+<!--              :items="items"-->
+<!--              :index="indexes"-->
             </v-col>
           </v-row>
         </v-container>
@@ -19,6 +23,7 @@
 
 <script>
 import RestaurantComp from '@/components/RestaurantComp.vue';
+import { getDataFromEndPoint } from '@/api/choco-requests';
 // import { getDataFromEndPoint } from '@/api/api';
 
 export default {
@@ -27,7 +32,18 @@ export default {
   components: {
     RestaurantComp,
   },
-  restaurants: null,
+  data() {
+    return {
+      restaurants: [],
+    };
+  },
+  // indexes: ,
+  created() {
+    getDataFromEndPoint().then((restaurantData) => {
+      this.restaurants = restaurantData;
+      this.indexes = restaurantData.length;
+    });
+  },
 };
 </script>
 

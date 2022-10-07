@@ -1,14 +1,9 @@
-import { restaurantsUlr } from './urls';
+import axios from 'axios';
 
-function setParams(longitude, latitude) {
-  // console.log(restaurantsUlr);
-  return `${restaurantsUlr}?offset=0&limit=30&longitude=${longitude}&latitude=${latitude}`;
-}
-
-export const getUrl = (longitude, latitude) => setParams(longitude, latitude);
+export const instance = axios.create({
+  baseURL: 'https://chocofood.kz/',
+});
 
 export default {
-  getUrl,
+  instance,
 };
-
-// console.log(getUrl(123, 222));
