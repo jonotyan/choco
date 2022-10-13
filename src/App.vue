@@ -20,15 +20,17 @@
           :key="item.title"
           link
         >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
+          <template v-if="item.title !== 'Пользователи'">
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
 
-          <v-list-item-content>
-            <router-link class="text-decoration-none grey--text" v-bind:to="item.addressPage">
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </router-link>
-          </v-list-item-content>
+            <v-list-item-content>
+              <router-link class="text-decoration-none grey--text" v-bind:to="item.addressPage">
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </router-link>
+            </v-list-item-content>
+          </template>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -50,33 +52,21 @@
             mdi-format-list-bulleted-square
           </v-icon>
         </v-btn>
-        <v-btn
-          class="mx-2"
-          fab
-          dark
-          small
-          color="blue lighten-1"
-        >
-          <v-icon
+        <router-link v-bind:to="items[2].addressPage">
+          <v-btn
+            class="mx-2"
+            fab
             dark
-            color="pink lighten-5">
-            mdi-alpha-s-box-outline
-          </v-icon>
-        </v-btn>
-
-        <v-btn
-          class="mx-2"
-          fab
-          dark
-          small
-          color="indigo lighten-1"
-        >
-          <v-icon
-            dark
-            color="pink lighten-5">
-            mdi-alpha-d-box-outline
-          </v-icon>
-        </v-btn>
+            small
+            color="blue lighten-1"
+          >
+            <v-icon
+              dark
+              color="pink lighten-5">
+              mdi-human-edit
+            </v-icon>
+          </v-btn>
+        </router-link>
       </div>
     </v-app-bar>
 
@@ -107,6 +97,7 @@ export default {
     items: [
       { title: 'Главная', icon: 'mdi-home', addressPage: '/' },
       { title: 'Рестораны', icon: 'mdi-hail', addressPage: '/restaurants' },
+      { title: 'Пользователи', icon: ' ', addressPage: '/users' },
     ],
   }),
 };

@@ -20,6 +20,16 @@ const routes = [
     name: 'restaurant',
     component: () => import('../components/RestaurantComp.vue'),
   },
+  {
+    path: '/users',
+    name: 'users',
+    component: () => import('../pages/UsersPage.vue'),
+  },
+  {
+    path: '/edit-profile',
+    name: 'UserProfileEdit',
+    component: () => import('../pages/UserProfileEditPage.vue'),
+  },
 ];
 
 const router = new VueRouter({

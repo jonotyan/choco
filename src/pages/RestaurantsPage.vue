@@ -25,6 +25,7 @@
 import RestaurantComp from '@/components/RestaurantComp.vue';
 import { getDataFromEndPoint } from '@/api/choco-requests';
 // import { getDataFromEndPoint } from '@/api/api';
+// import { deserialize } from '@/serializers/restaurantsDeserializer';
 
 export default {
   name: 'RestaurantsPage',
@@ -42,6 +43,8 @@ export default {
     getDataFromEndPoint().then((restaurantData) => {
       this.restaurants = restaurantData;
       this.indexes = restaurantData.length;
+      // eslint-disable-next-line no-console
+      // console.log(restaurantData);
     });
   },
 };
