@@ -26,9 +26,14 @@ const routes = [
     component: () => import('../pages/UsersPage.vue'),
   },
   {
-    path: '/edit-profile',
+    path: '/edit-profile/:id',
     name: 'UserProfileEdit',
     component: () => import('../pages/UserProfileEditPage.vue'),
+  },
+  {
+    path: '/add-profile/:id',
+    name: 'UserAdding',
+    component: () => import('../pages/UserAdding.vue'),
   },
 ];
 

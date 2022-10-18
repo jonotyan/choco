@@ -25,7 +25,7 @@
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
 
-            <v-list-item-content>
+            <v-list-item-content v-if="item.title !== 'Добавить'">
               <router-link class="text-decoration-none grey--text" v-bind:to="item.addressPage">
                 <v-list-item-title>{{ item.title }}</v-list-item-title>
               </router-link>
@@ -59,11 +59,28 @@
             dark
             small
             color="blue lighten-1"
+            @click="turnOnUsersPage"
           >
             <v-icon
               dark
               color="pink lighten-5">
               mdi-human-edit
+            </v-icon>
+          </v-btn>
+        </router-link>
+        <router-link v-bind:to="items[3].addressPage">
+          <v-btn v-if="usersPage === true"
+            class="mx-2"
+            fab
+            dark
+            small
+            color="green lighten-1"
+            @click="turnOnUsersPage"
+          >
+            <v-icon
+              dark
+              color="pink lighten-5">
+              mdi-account-plus
             </v-icon>
           </v-btn>
         </router-link>
@@ -94,12 +111,23 @@ export default {
 
   data: () => ({
     drawer: null,
+    usersPage: false,
     items: [
       { title: 'Главная', icon: 'mdi-home', addressPage: '/' },
       { title: 'Рестораны', icon: 'mdi-hail', addressPage: '/restaurants' },
       { title: 'Пользователи', icon: ' ', addressPage: '/users' },
+      { title: 'Добавить', icon: ' ', addressPage: '/add-profile/-1' },
     ],
   }),
+  methods: {
+    turnOnUsersPage() {
+      if (this.usersPage === false) {
+        this.usersPage = true;
+        return;
+      }
+      this.usersPage = false;
+    },
+  },
 };
 </script>
 

@@ -1,12 +1,11 @@
 class User {
   constructor(user = {}) {
+    this.id = user.id;
     this.name = user?.name || ' ';
-    this.username = user?.username || ' ';
-    this.email = user?.email || ' ';
-    // this.city = user?.address?.city || ' ';
-    this.phone = user?.phone || ' ';
-    this.website = user?.website || ' ';
-    // this.companyName = user?.company?.name || ' ';
+    this.username = user?.user_name || ' ';
+    this.email = user?.email_address || ' ';
+    this.phone = user?.phone_number || ' ';
+    this.website = user?.website_url || ' ';
     this.functions = 'edit';
   }
 }

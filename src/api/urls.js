@@ -3,7 +3,8 @@ export const chocoUrls = {
 };
 
 export const placeHolder = {
-  users: 'users',
+  users: 'users/',
+  oneUser: 'user/',
 };
 
 export default {

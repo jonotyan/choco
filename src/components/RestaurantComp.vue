@@ -15,7 +15,7 @@
       </v-card-title>
 
       <v-card-subtitle>
-        {{ restaurant.city }}
+        {{ restaurant.city.name }}
       </v-card-subtitle>
 
       <v-card-actions>
@@ -41,13 +41,13 @@
             </v-card-title>
 
             <v-card-text class="restaurant-info">
-              <span class="text--primary">Город: {{ restaurant.city }}</span><br>
-              <span class="text--primary">Адрес: {{ restaurant.location }} </span><br>
+              <span class="text--primary">Город: {{ restaurant.city.name }}</span><br>
+              <span class="text--primary">Адрес: {{ restaurant.location.locationText }} </span><br>
               <span class="text--primary">Рейтинг: {{ restaurant.rating }} </span><br>
               <span class="text--primary">Статус: {{ restaurant.status }} </span><br>
-              <span class="text--primary">Контактное лицо: {{ restaurant.phone.name }}
+              <span class="text--primary">Контактное лицо: {{ restaurant.phoneInfo.name }}
               </span><br>
-              <span class="text--primary">Телефон: {{ restaurant.phone.number }} </span><br>
+              <span class="text--primary">Телефон: {{ restaurant.phoneInfo.number }} </span><br>
             </v-card-text>
 
             <v-divider></v-divider>

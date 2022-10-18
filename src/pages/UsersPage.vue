@@ -4,15 +4,15 @@
     :items="users"
     class="elevation-1"
   >
-    <template v-slot:[`item.btn`]="{ item }">
+    <template v-slot:[`item.functions`]="{ item }">
       <v-chip
-        :color="getColor()"
+        color="green"
         dark
       >
         <button
-          @click="cur_name = item.name; editUser()"
+          @click="editUser(item)"
         >
-          {{ item.btn }}
+          {{ item.functions }}
         </button>
       </v-chip>
     </template>
@@ -20,9 +20,8 @@
 </template>
 
 <script>
+import { getDataFromPlaceHolder } from '@/api/users-requests';
 import User from '@/components/User.vue';
-// import { getDataFromPlaceHolder } from '@/api/users-requests';
-// import { serializeUsers } from '@/serializers/userSerializer';
 
 export default {
   name: 'UsersPage',
@@ -30,7 +29,9 @@ export default {
   components: { User },
   data: () => ({
     users: [],
-    cur_name: null,
+    curName: null,
+    mockup: {},
+    editUserId: null,
     headers: [
       {
         text: 'Имя',
@@ -42,35 +43,25 @@ export default {
       { text: 'Почта', value: 'email' },
       { text: 'Телефон', value: 'phone' },
       { text: 'Сайт', value: 'website' },
-      { text: 'Функции', value: 'btn' },
+      { text: 'Функции', value: 'functions' },
     ],
   }),
   created() {
-    if (this.$store.getters.IS_START) {
-      this.$store.dispatch('TURN_STARTER_OFF');
-      this.$store.dispatch('SET_DATA');
-    }
-    this.users = this.$store.getters.USERS;
+    this.loadData();
+  },
+  mounted() {
+    this.loadData();
   },
   methods: {
-    editUser() {
-      if (this.cur_name !== null) {
-        for (let i = 0; i < this.users.length; i += 1) {
-          if (this.cur_name === this.users[i].name) {
-            // console.log(this.users[i].name);
-            this.$store.dispatch('CHANGE_USER_ID', i);
-            // console.log(this.$store.getters.NAME);
-            break;
-          }
-        }
-      }
-      this.$router.push({ name: 'UserProfileEdit' });
+    loadData() {
+      getDataFromPlaceHolder().then((data) => {
+        this.users = data;
+      });
     },
-    getColor() {
-      return 'green';
-    },
-    show() {
-      console.log(this.cur_id);
+    editUser(user) {
+      // this.userData = user;
+      // console.log('ID:', user.id);
+      this.$router.push({ name: 'UserProfileEdit', params: { id: user.id, userInfo: user } });
     },
   },
 };

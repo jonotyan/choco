@@ -44,7 +44,7 @@
       class="mr-4"
       @click="submit"
     >
-      Сохранить
+      Добавить
     </v-btn>
 
     <v-btn
@@ -53,24 +53,16 @@
     >
       Очистить
     </v-btn>
-
-    <v-btn
-      color="red lighten-2"
-      class="mr-4"
-      @click="deleteBtn"
-    >
-      Удалить
-    </v-btn>
   </v-form>
 </template>
 
 <script>
 
 import { deSerializeUser } from '@/serializers/userDeserialize';
-import { patchRequestUser, deleteRequestUser, getDataFromPlaceHolder } from '@/api/users-requests';
+import { postRequestUser, getDataFromPlaceHolder } from '@/api/users-requests';
 
 export default {
-  name: 'UserProfileEditPage',
+  name: 'UserAdding',
   data: () => ({
     valid: false,
     updatedData: {},
@@ -136,18 +128,10 @@ export default {
       // console.log('ID:', this.curUser.id);
       this.updateUser();
       const deserializedData = deSerializeUser(this.updatedData);
-      console.log(deserializedData);
-      patchRequestUser(deserializedData);
+      console.log(this.curUser.phone);
+      console.log('CHECK:', deserializedData);
+      postRequestUser(deserializedData);
       this.$router.push({ name: 'users' });
-    },
-    deleteBtn() {
-      this.updateUser();
-      const deserializedData = deSerializeUser(this.updatedData);
-      deleteRequestUser(deserializedData);
-      this.$router.push({ name: 'users' });
-    },
-    add() {
-      this.updateUser();
     },
   },
 };

@@ -1,4 +1,4 @@
-export function getPhonesInfo(phones) {
+export function getPhoneInfo(phone) {
   const checkName = (name) => {
     if (name.length > 2) {
       return name;
@@ -6,8 +6,8 @@ export function getPhonesInfo(phones) {
     return 'нет имени';
   };
   return {
-    name: checkName(phones[0].title),
-    number: phones[0].number,
+    name: checkName(phone.title),
+    number: phone.number,
   };
 }
 
@@ -59,7 +59,7 @@ function getOneRestaurantInfo(restaurantData) {
 }
 
 export default {
-  getPhonesInfo,
+  getPhoneInfo,
   getOneRestaurantInfo,
   getTime,
   getCurrentDateTime,
