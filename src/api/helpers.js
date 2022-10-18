@@ -1,17 +1,4 @@
-export function getPhoneInfo(phone) {
-  const checkName = (name) => {
-    if (name.length > 2) {
-      return name;
-    }
-    return 'нет имени';
-  };
-  return {
-    name: checkName(phone.title),
-    number: phone.number,
-  };
-}
-
-function getStatus(restaurantTime, todayTime) {
+function getTime(restaurantTime, todayTime) {
   const currentMinutes = restaurantTime.openHour * 60 + restaurantTime.openMinute;
   const restaurantMinutes = todayTime.hour * 60 + todayTime.minute;
   const minutesToOpen = currentMinutes - restaurantMinutes;
@@ -36,22 +23,22 @@ const getCurrentDateTime = () => {
   };
 };
 
-export const getTime = (week) => {
+export const getStatus = (days) => {
   const today = getCurrentDateTime();
   let restaurantTime = null;
-  for (let i = 0; i < week.length; i += 1) {
+  for (let i = 0; i < days.length; i += 1) {
     // eslint-disable-next-line no-console
     if (i === today.date.day) {
       restaurantTime = {
-        openHour: week[i].started_at.hour,
-        openMinute: week[i].started_at.minute,
-        closeHour: week[i].ended_at.hour,
-        closeMinute: week[i].ended_at.minute,
+        openHour: days[i].startedTime.hour,
+        openMinute: days[i].startedTime.minute,
+        closeHour: days[i].endedTime.hour,
+        closeMinute: days[i].endedTime.minute,
       };
       break;
     }
   }
-  return getStatus(restaurantTime, today.time);
+  return getTime(restaurantTime, today.time);
 };
 
 function getOneRestaurantInfo(restaurantData) {
@@ -59,7 +46,6 @@ function getOneRestaurantInfo(restaurantData) {
 }
 
 export default {
-  getPhoneInfo,
   getOneRestaurantInfo,
   getTime,
   getCurrentDateTime,

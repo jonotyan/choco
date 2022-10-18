@@ -1,7 +1,8 @@
-import { getTime } from '../api/helpers';
+import { getStatus } from '../api/helpers';
 import { serializeCity } from './citySerializer';
 import { serializePhones } from './phoneSerializer';
 import { serializeLocation } from './locationSerializer';
+import { serializeWeek } from './scheduleSerializer';
 
 class RestaurantInformation {
   constructor(restaurantInfo = {}) {
@@ -9,7 +10,8 @@ class RestaurantInformation {
     this.restaurantTitle = restaurantInfo?.restaurant.title || ' ';
     this.restaurantTitleMin = restaurantInfo?.restaurant.title.slice(0, 15) || ' ';
     this.rating = restaurantInfo?.restaurant.rating || ' ';
-    this.status = restaurantInfo === {} ? ' ' : getTime(restaurantInfo.restaurant.schedule);
+    this.schedule = serializeWeek(restaurantInfo.restaurant.schedule);
+    this.status = restaurantInfo === {} ? ' ' : getStatus(this.schedule);
     this.city = serializeCity(restaurantInfo.restaurant.city);
     this.location = serializeLocation(restaurantInfo.restaurant.location);
     this.phoneInfo = serializePhones(restaurantInfo.restaurant.phones);

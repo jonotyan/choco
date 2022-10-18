@@ -40,6 +40,13 @@
     ></v-text-field>
 
     <v-btn
+      @click="back"
+      class="mr-4"
+    >
+      назад
+    </v-btn>
+
+    <v-btn
       color="success"
       class="mr-4"
       @click="submit"
@@ -71,6 +78,7 @@ import { patchRequestUser, deleteRequestUser, getDataFromPlaceHolder } from '@/a
 
 export default {
   name: 'UserProfileEditPage',
+  deserializedData: null,
   data: () => ({
     valid: false,
     updatedData: {},
@@ -132,22 +140,25 @@ export default {
         website: this.curUser.website,
       };
     },
-    submit() {
-      // console.log('ID:', this.curUser.id);
+    refreshData() {
       this.updateUser();
-      const deserializedData = deSerializeUser(this.updatedData);
-      console.log(deserializedData);
-      patchRequestUser(deserializedData);
+      this.deserializedData = deSerializeUser(this.updatedData);
+    },
+    submit() {
+      this.refreshData();
+      patchRequestUser(this.deserializedData);
       this.$router.push({ name: 'users' });
     },
     deleteBtn() {
-      this.updateUser();
-      const deserializedData = deSerializeUser(this.updatedData);
-      deleteRequestUser(deserializedData);
+      this.refreshData();
+      deleteRequestUser(this.deserializedData);
       this.$router.push({ name: 'users' });
     },
     add() {
       this.updateUser();
+    },
+    back() {
+      this.$router.push({ name: 'users' });
     },
   },
 };

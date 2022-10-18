@@ -75,7 +75,6 @@
             dark
             small
             color="green lighten-1"
-            @click="turnOnUsersPage"
           >
             <v-icon
               dark
@@ -119,9 +118,13 @@ export default {
       { title: 'Добавить', icon: ' ', addressPage: '/add-profile/-1' },
     ],
   }),
+  mounted() {
+    this.turnOnUsersPage();
+  },
   methods: {
     turnOnUsersPage() {
-      if (this.usersPage === false) {
+      console.log(this.$route.path, this.$route.name);
+      if (this.$route.name === 'users') {
         this.usersPage = true;
         return;
       }

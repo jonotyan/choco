@@ -40,6 +40,13 @@
     ></v-text-field>
 
     <v-btn
+      @click="back"
+      class="mr-4"
+    >
+      назад
+    </v-btn>
+
+    <v-btn
       color="success"
       class="mr-4"
       @click="submit"
@@ -59,7 +66,7 @@
 <script>
 
 import { deSerializeUser } from '@/serializers/userDeserialize';
-import { postRequestUser, getDataFromPlaceHolder } from '@/api/users-requests';
+import { postRequestUser } from '@/api/users-requests';
 
 export default {
   name: 'UserAdding',
@@ -101,7 +108,6 @@ export default {
       this.curUser.website = user.website;
     },
     createData() {
-      this.curUser.id = getDataFromPlaceHolder().then((data) => data.length);
       this.curUser.name = ' ';
       this.curUser.username = ' ';
       this.curUser.email = ' ';
@@ -128,9 +134,10 @@ export default {
       // console.log('ID:', this.curUser.id);
       this.updateUser();
       const deserializedData = deSerializeUser(this.updatedData);
-      console.log(this.curUser.phone);
-      console.log('CHECK:', deserializedData);
       postRequestUser(deserializedData);
+      this.$router.push({ name: 'users' });
+    },
+    back() {
       this.$router.push({ name: 'users' });
     },
   },

@@ -45,9 +45,9 @@
               <span class="text--primary">Адрес: {{ restaurant.location.locationText }} </span><br>
               <span class="text--primary">Рейтинг: {{ restaurant.rating }} </span><br>
               <span class="text--primary">Статус: {{ restaurant.status }} </span><br>
-              <span class="text--primary">Контактное лицо: {{ restaurant.phoneInfo.name }}
+              <span class="text--primary">Контактное лицо: {{ restaurant.phoneInfo[0].name }}
               </span><br>
-              <span class="text--primary">Телефон: {{ restaurant.phoneInfo.number }} </span><br>
+              <span class="text--primary">Телефон: {{ restaurant.phoneInfo[0].number }} </span><br>
             </v-card-text>
 
             <v-divider></v-divider>

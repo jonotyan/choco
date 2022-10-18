@@ -1,10 +1,7 @@
-import { getPhoneInfo } from '../api/helpers';
-
 class Phone {
   constructor(phoneInfo = {}) {
-    const info = phoneInfo === {} ? { name: ' ', number: ' ' } : getPhoneInfo(phoneInfo);
-    this.name = info.name;
-    this.number = info.number;
+    this.name = phoneInfo.title.length < 1 ? 'нет имени' : phoneInfo.title;
+    this.number = phoneInfo.number;
   }
 }
 
