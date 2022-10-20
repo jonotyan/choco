@@ -5,36 +5,36 @@
     lazy-validation
   >
     <v-text-field
-      v-model="curUser.name"
-    :counter="30"
-    :rules="curUser.nameRules"
+      v-model="user.name"
+      :counter="30"
+      :rules="rules.name"
       label="Имя"
       required
     ></v-text-field>
 
     <v-text-field
-      v-model="curUser.username"
+      v-model="user.username"
       :counter="30"
-      :rules="curUser.nameRules"
+      :rules="rules.name"
       label="username"
       required
     ></v-text-field>
 
     <v-text-field
-      v-model="curUser.email"
-      :rules="curUser.emailRules"
+      v-model="user.email"
+      :rules="rules.email"
       label="Почта"
       required
     ></v-text-field>
 
     <v-text-field
-      v-model="curUser.phone"
+      v-model="user.phone"
       label="Телефон"
-      required
+      requireduser
     ></v-text-field>
 
     <v-text-field
-      v-model="curUser.website"
+      v-model="user.website"
       label="Веб-сайт"
       required
     ></v-text-field>
@@ -46,13 +46,25 @@
       назад
     </v-btn>
 
+    <template v-if="mode==='edit'">
     <v-btn
       color="success"
       class="mr-4"
-      @click="submit"
+      @click="resave"
     >
       Сохранить
     </v-btn>
+    </template>
+
+    <template v-else>
+      <v-btn
+        color="success"
+        class="mr-4"
+        @click="addBtn"
+      >
+        Добавить
+      </v-btn>
+    </template>
 
     <v-btn
       @click="reset"
@@ -73,56 +85,48 @@
 
 <script>
 
-import { deSerializeUser } from '@/serializers/userDeserialize';
-import { patchRequestUser, deleteRequestUser, getDataFromPlaceHolder } from '@/api/users-requests';
+import { deserializeUser } from '@/serializers/userSerializer';
+import { patchUser, deleteUser, postUser } from '@/api/users-requests';
 
 export default {
   name: 'UserProfileEditPage',
-  deserializedData: null,
   data: () => ({
+    mode: '',
     valid: false,
-    updatedData: {},
-    curUser: {
-      id: null,
-      name: ' ',
-      nameRules: [
+    user: {
+      id: 0,
+      name: '',
+      username: '',
+      email: '',
+      phone: '',
+      website: '',
+    },
+    rules: {
+      name: [
         (v) => !!v || 'Name is required',
         (v) => (v && v.length <= 31) || 'Name must be less than 30 characters',
       ],
-      username: 'store.getters.USERNAME',
-      email: ' ',
-      emailRules: [
+      email: [
         (v) => !!v || 'E-mail is required',
         (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
       ],
-      phone: ' ',
-      website: ' ',
     },
   }),
   mounted() {
-    const user = this.$route.params.userInfo;
-    if (user !== undefined) {
-      this.loadData(user);
-      return;
+    const user = this.$route.params.userInfo?.item || this.user;
+    if (Object.keys(user).length > 6) {
+      this.mode = 'edit';
+    } else {
+      this.mode = 'add';
     }
-    this.createData();
+    console.log(this.mode);
+    this.loadData(user);
   },
   methods: {
     loadData(user) {
-      this.curUser.id = user.id;
-      this.curUser.name = user.name;
-      this.curUser.username = user.username;
-      this.curUser.email = user.email;
-      this.curUser.phone = user.phone;
-      this.curUser.website = user.website;
-    },
-    createData() {
-      this.curUser.id = getDataFromPlaceHolder().then((data) => data.length);
-      this.curUser.name = ' ';
-      this.curUser.username = ' ';
-      this.curUser.email = ' ';
-      this.curUser.phone = ' ';
-      this.curUser.website = ' ';
+      if (user) {
+        this.user = user;
+      }
     },
     validate() {
       this.$refs.form.validate();
@@ -130,32 +134,25 @@ export default {
     reset() {
       this.$refs.form.reset();
     },
-    updateUser() {
-      this.updatedData = {
-        id: this.curUser.id,
-        name: this.curUser.name,
-        username: this.curUser.username,
-        email: this.curUser.email,
-        phone: this.curUser.phone,
-        website: this.curUser.website,
-      };
+    resave() {
+      patchUser(deserializeUser(this.user))
+        .then(() => {
+          this.$router.push({ name: 'users' });
+        });
     },
-    refreshData() {
-      this.updateUser();
-      this.deserializedData = deSerializeUser(this.updatedData);
-    },
-    submit() {
-      this.refreshData();
-      patchRequestUser(this.deserializedData);
-      this.$router.push({ name: 'users' });
+    addBtn() {
+      console.log(this.user);
+      console.log(deserializeUser(this.user));
+      postUser(deserializeUser(this.user))
+        .then(() => {
+          this.$router.push({ name: 'users' });
+        });
     },
     deleteBtn() {
-      this.refreshData();
-      deleteRequestUser(this.deserializedData);
-      this.$router.push({ name: 'users' });
-    },
-    add() {
-      this.updateUser();
+      deleteUser(this.user)
+        .then(() => {
+          this.$router.push({ name: 'users' });
+        });
     },
     back() {
       this.$router.push({ name: 'users' });

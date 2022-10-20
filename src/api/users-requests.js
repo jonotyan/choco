@@ -1,10 +1,9 @@
-import { placeHolder } from '@/api/urls';
-import { placeHolderInstance as inst } from '@/api/entrypoints';
+import { usersUrl } from '@/api/urls';
+import { instanceLocalhost as inst } from '@/api/entrypoints';
 import { serializeUsers } from '@/serializers/userSerializer';
-// import { deSerializeUser } from '@/serializers/userDeserialize';
 
 // eslint-disable-next-line import/prefer-default-export
-export const getDataFromPlaceHolder = () => inst.get(placeHolder.users)
+export const getUsers = () => inst.get(usersUrl.users)
   .then(
     (response) => serializeUsers(response.data),
   )
@@ -13,8 +12,8 @@ export const getDataFromPlaceHolder = () => inst.get(placeHolder.users)
     console.log('error', e);
   });
 
-export const patchRequestUser = (data) => inst.patch(`${placeHolder.oneUser}${data.id}`, data);
+export const patchUser = (data) => inst.patch(`${usersUrl.user}${data.id}`, data);
 
-export const postRequestUser = (data) => inst.post(placeHolder.users, data);
+export const postUser = (data) => inst.post(usersUrl.users, data);
 
-export const deleteRequestUser = (data) => inst.delete(`${placeHolder.oneUser}${data.id}`, data);
+export const deleteUser = (data) => inst.delete(`${usersUrl.user}${data.id}`);

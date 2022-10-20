@@ -1,7 +1,7 @@
 class Time {
   constructor(timeInfo = {}) {
-    this.hour = timeInfo.hour;
-    this.minute = timeInfo.minute;
+    this.hour = timeInfo.hour || 0;
+    this.minute = timeInfo.minute || 0;
   }
 }
 

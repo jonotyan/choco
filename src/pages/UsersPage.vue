@@ -10,17 +10,61 @@
         dark
       >
         <button
-          @click="editUser(item)"
+          @click="editUser({item})"
         >
-          {{ item.functions }}
+          {{ item.functions[0] }}
         </button>
       </v-chip>
+      <v-dialog
+        v-model="dialog"
+        :retain-focus="false"
+        max-width="290"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-chip
+            color="red"
+            dark
+          >
+            <button
+              v-bind="attrs"
+              v-on="on"
+              @click="user=item"
+            >
+              {{ item.functions[1] }}
+            </button>
+          </v-chip>
+        </template>
+        <v-card>
+          <v-card-title class="text-h5">
+            Подвтверждение
+          </v-card-title>
+          <v-card-text>Вы действительно хотите удалить {{ user.name }}?</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="dialog = false"
+            >
+              Отмена
+            </v-btn>
+
+            <v-btn
+              color="green darken-1"
+              text
+              @click="confirmDelete()"
+            >
+              Удалить
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </template>
   </v-data-table>
 </template>
 
 <script>
-import { getDataFromPlaceHolder } from '@/api/users-requests';
+import { getUsers, deleteUser } from '@/api/users-requests';
 import User from '@/components/User.vue';
 
 export default {
@@ -28,10 +72,9 @@ export default {
   // eslint-disable-next-line vue/no-unused-components
   components: { User },
   data: () => ({
+    dialog: false,
     users: [],
-    curName: null,
-    mockup: {},
-    editUserId: null,
+    user: {},
     headers: [
       {
         text: 'Имя',
@@ -45,23 +88,28 @@ export default {
       { text: 'Сайт', value: 'website' },
       { text: 'Функции', value: 'functions' },
     ],
+    buttons: [
+      { title: 'Добавить', icon: '', addressPage: '/add-profile/-1' },
+    ],
   }),
-  created() {
-    this.loadData();
-  },
   mounted() {
     this.loadData();
   },
   methods: {
     loadData() {
-      getDataFromPlaceHolder().then((data) => {
+      getUsers().then((data) => {
         this.users = data;
       });
     },
+    confirmDelete() {
+      this.dialog = false;
+      deleteUser(this.user)
+        .then(() => {
+          this.loadData();
+        });
+    },
     editUser(user) {
-      // this.userData = user;
-      // console.log('ID:', user.id);
-      this.$router.push({ name: 'UserProfileEdit', params: { id: user.id, userInfo: user } });
+      this.$router.push({ name: 'UserProfileEdit', params: { id: user.item.id, userInfo: user } });
     },
   },
 };

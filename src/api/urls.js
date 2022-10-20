@@ -2,12 +2,12 @@ export const chocoUrls = {
   restaurants: 'hermes/delivery_areas/restaurants/',
 };
 
-export const placeHolder = {
+export const usersUrl = {
   users: 'users/',
-  oneUser: 'user/',
+  user: 'user/',
 };
 
 export default {
   chocoUrls,
-  placeHolder,
+  usersUrl,
 };

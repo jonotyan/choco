@@ -1,6 +1,6 @@
 class City {
   constructor(cityInfo = {}) {
-    this.name = cityInfo?.title || ' ';
+    this.name = cityInfo.title || '';
   }
 }
 

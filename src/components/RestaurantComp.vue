@@ -45,9 +45,17 @@
               <span class="text--primary">Адрес: {{ restaurant.location.locationText }} </span><br>
               <span class="text--primary">Рейтинг: {{ restaurant.rating }} </span><br>
               <span class="text--primary">Статус: {{ restaurant.status }} </span><br>
-              <span class="text--primary">Контактное лицо: {{ restaurant.phoneInfo[0].name }}
-              </span><br>
-              <span class="text--primary">Телефон: {{ restaurant.phoneInfo[0].number }} </span><br>
+              <ul> {{ initPhones() }}
+                <li v-for="phoneId in phones.length" :key="phoneId">
+                  <span class="text--primary">
+                    Контактное лицо: {{ restaurant.phoneInfo[phoneId - 1].name }}
+                  </span><br>
+                  <span class="text--primary">
+                    Телефон: {{ restaurant.phoneInfo[phoneId - 1].number }}
+                  </span>
+                </li>
+              </ul>
+              <br>
             </v-card-text>
 
             <v-divider></v-divider>
@@ -72,22 +80,26 @@
 </template>
 
 <script>
-// import getOneRestaurantInfo from '../api/helpers';
 
 export default {
   name: 'RestaurantComp',
+  phones: 0,
   props: {
     restaurant: {
       type: Object,
       default: () => ({}),
     },
-    // index: Number,
-    // items: Array,
+    index: Number,
   },
   data() {
     return {
       dialog: false,
     };
+  },
+  methods: {
+    initPhones() {
+      this.phones = this.restaurant.phoneInfo;
+    },
   },
 };
 </script>

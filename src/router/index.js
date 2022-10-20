@@ -7,7 +7,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'HomeView',
     component: HomeView,
   },
   {
@@ -32,8 +32,8 @@ const routes = [
   },
   {
     path: '/add-profile/:id',
-    name: 'UserAdding',
-    component: () => import('../pages/UserAdding.vue'),
+    name: 'UserProfileAdd',
+    component: () => import('../pages/UserProfileEditPage.vue'),
   },
 ];
 
